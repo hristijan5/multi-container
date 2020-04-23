@@ -1,0 +1,32 @@
+#language: generic
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t hristijan/client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true hristijan/client-test npm run test
+
+after_success:
+  - docker build -t hristijan/multi-client ./client
+  - docker build -t hristijan/multi-nginx ./nginx
+  - docker build -t hristijan/multi-server ./server
+  - docker build -t hristijan/multi-worker ./worker
+
+
+# Deploy on AWS
+#deploy:
+#  provider: elasticbeanstalk
+#  region: "us-west-2"                                   # The region from the full URL in AWS. I.e.: "us-west-2"]
+#  app: "docker-react"                                   # The name of the application created in AWS.
+#  env: "Docker-react-env"                               # The environment name created for this app in AWS.
+#  bucket_name: "elasticbeanstalk-us-west-2-304"         # Get teh name from Services S3 - get name with the url and region in it.
+#  bucket_path: "docker-react"                           # Usually the path in the bucket (disk). Set to the name of the app.
+#  on:
+#    branch: master                                      # Code pushed only to master branch
+#  access_key_id: $AWS_ACCESS_KEY                        # Env variable set in Travis CI
+#  secret_access_key:
+#    secure: $AWS_SECRET_KEY                             # Env variable set in Travis CI
