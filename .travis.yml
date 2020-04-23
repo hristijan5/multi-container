@@ -16,7 +16,7 @@ after_success:
   - docker build -t hristijan/multi-server ./server
   - docker build -t hristijan/multi-worker ./worker
   # Log in docker CLI
-  - echo "$DOCKER_TOKEN" | docker login -us "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
   # Push images and push to docker hub
   - docker push hristijan/multi-client
   - docker push hristijan/multi-nginx
