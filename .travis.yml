@@ -15,7 +15,13 @@ after_success:
   - docker build -t hristijan/multi-nginx ./nginx
   - docker build -t hristijan/multi-server ./server
   - docker build -t hristijan/multi-worker ./worker
-
+  # Log in docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -U "$DOCKER_ID" --pasword-stdin
+  # Push images and push to docker hub
+  - docker push hristijan/multi-client
+  - docker push hristijan/multi-nginx
+  - docker push hristijan/multi-server
+  - docker push hristijan/multi-worker
 
 # Deploy on AWS
 #deploy:
