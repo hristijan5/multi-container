@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import axios from 'axios';
 
 class Fib extends Component {
@@ -20,17 +20,17 @@ class Fib extends Component {
 
     async fetchIndexes() {
         const seenIndexes = await axios.get('/api/values/all');
-        this.setState({seenIndexes: seenIndexes.data});
+        this.setState({seenIndexes: Array.from(seenIndexes.data)});
     }
 
-    handleSubmit = async (event) => {
+    handleSubmit = async event => {
         event.preventDefault();
 
         await axios.post('/api/values', {
             index: this.state.index
         });
         this.setState({index: ''});
-    }
+    };
 
     renderSeenIndexes() {
         return this.state.seenIndexes.map(({number}) => number).join(', ');
@@ -64,9 +64,8 @@ class Fib extends Component {
                 {this.renderSeenIndexes()}
                 <h3>Calculated values:</h3>
                 {this.renderValues()}
-
             </div>
-        )
+        );
     }
 }
 
