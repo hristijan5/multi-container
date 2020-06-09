@@ -17,5 +17,19 @@ spec:
           image: hristijan/multi-server
           ports:
             - containerPort: 5000
-#          env:
-#            - name:
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: '6379'
+            - name: PG_USER
+              value: postgres
+            - name: PG_HOST
+              value: postgres-cluster-ip-service
+            - name: PG_DATABASE
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
